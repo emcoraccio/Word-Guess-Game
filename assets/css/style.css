@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One&display=swap');
+
+html {
+  background: url('../images/elijah-o-donnell-7DVmV22nieQ-unsplash.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body {
+  font-family: 'Fjalla One', sans-serif;
+}
+
+main {
+  color: #ffffff;
+}
+
+h2.title {
+  text-align: center;
+  font-size: 40px;
+}
+
+p {
+  text-align: center;
+  padding: 10px;
+}
+
+p.instructions {
+  margin: 30px;
+}
+
+div.changing {
+  position: relative;
+  top: 150px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0; 
+  right: 0;
+  margin: 10px;
+  font-size: 12px;
+  color: #aaaaaa;
+}
