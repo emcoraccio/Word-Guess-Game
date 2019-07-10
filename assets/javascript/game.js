@@ -1,16 +1,36 @@
+// sets array of possible words for the game
 let marvelWords = ["Iron Man", "Stan Lee", "Thor", "Drax", "Peter Parker", "Tony Stark"];
 
+// sets variables to be used in the game
 let wins = 0;
+let losses = 0;
 let guessesLeft = 12;
 let lettersGuessed = [];
-let word = "";
+let word = ""
+let userGuess = [];
 let letterIndex = -1;
+
+// accessing specific html ids
+let guessText = document.getElementById("guess");
+let guessesText = document.getElementById("guesses-left");
+let lettersGuessedText = document.getElementById("guessed-letters");
+let winsText = document.getElementById("wins");
+let lossesText = document.getElementById("losses");
+
+// setting beginning html
+guessesText.innerHTML = guessesLeft;
+winsText.innerHTML = wins;
+lossesText.innerHTML = losses;
+
 
 // resets values to begin new game
 function resetValues() {
   guessesLeft = 12;
+  guessesText.innerHTML = guessesLeft;
   lettersGuessed = [];
+  lettersGuessedText.innerHTML = lettersGuessed;  
   word = "";
+  userGuess = [];
 }
 
 // picks new random word for user to guess
@@ -20,24 +40,79 @@ function newWord() {
 }
 
 newWord();
-console.log(word);
 
-document.onkeyup = function(event) {
-  let letterGuess = event.key
-  let upLetterGuess = letterGuess.toUpperCase();
-  let letterIndex = word.indexOf(upletterGuess);
-
-  console.log(letterGuess);
-  console.log(upLetterGuess);
-  // console.log(upLetterGuess);
-  console.log(word.indexOf(upLetterGuess));
-  // console.log(word[1]);
-
-  if ((word.indexOf(upLetterGuess)) != -1) {
-    console.log(letterIndex);
+// sets word to be guessed to underscores 
+function setBlanks() {
+  for (i = 0; i < word.length; i++) {
+    if (word[i] == " ") {
+      userGuess.push("  ");
+      console.log(userGuess);
+    }
+    else {
+      userGuess.push("_");
+      console.log(userGuess);
+    }
   }
+  guessText.innerHTML = userGuess;
+}
+
+setBlanks();
+
+function checkBlanks() {
+  if (userGuess.indexOf("_") == -1) {
+    wins ++;
+    winsText.innerHTML = wins;
+    resetValues();
+    newWord();
+    setBlanks();
+  }
+}
+
+
+
+// when user presses a key...
+document.onkeyup = function (event) {
+  // set user's guess to uppercase letter
+  let letterGuess = event.key.toUpperCase();
+
+  // set variable for the letter guessed's position in the word
+  let letterIndex = word.indexOf(letterGuess);
+
+  // checks if user's guess is in the word or not
+  if (letterIndex != -1) {
+    console.log("first letter found at " + letterIndex);
+    userGuess[letterIndex] = letterGuess;
+    guessText.innerHTML = userGuess;
+
+    // checks for another instance of that letter in the word
+    for (i = letterIndex; i < word.length; i++) {
+      let letterFind = word.indexOf(letterGuess, (i + 1));
+      // if there is another instance...
+      if (letterFind != -1) {
+        console.log("letter found at " + letterFind);
+        // replace _ with letter user guessed and set it on the page
+        userGuess[letterFind] = letterGuess;
+        guessText.innerHTML = userGuess;
+        i = letterFind;
+      }
+      // otherwise end the for loop
+      else {
+        i = word.length;
+      }
+    }
+    checkBlanks();
+  }
+  // if user's guess is not in the word, add it to the lettersGuessed array
   else if (lettersGuessed.indexOf(letterGuess) == -1) {
     lettersGuessed.push(letterGuess);
-    console.log(lettersGuessed);
+    guessesLeft--;
+    guessesText.innerHTML = guessesLeft;
+    lettersGuessedText.innerHTML = lettersGuessed;
+    if (guessesLeft == 0) {
+      losses++;
+      lossesText.innerHTML = losses;
+    }
   }
+
+
 }
