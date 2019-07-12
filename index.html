@@ -12,29 +12,45 @@
 <body>
 
   <main>
+    <div class="container">
 
     <h2 class="title">WORD GUESS GAME</h2>
 
-    <p class="instructions">Press any key to get started</p>
+    <button class="playButton show-init">PLAY</button>
 
-    <p>WINS: <span id="wins"></span></p>
-    <p>LOSSES: <span id="losses"></span></p>
-
-    <div class="changing">
-      <p class="word">WORD: </p>
-      <p id="guess"></p>
-  
-      <p>Number of guesses remaining: <span id="guesses-left"></span></p>
-  
-      <p>Letters Already Guessed: </p>
-      <p id="guessed-letters"></p>
+    <div class="scorecard">
+      <p class="score win hide-init">WINS: <span id="wins"></p>
+      <p class="score loss hide-init">LOSSES: <span id="losses"></span></p>
     </div>
 
+    <div class="changing hide-init">
+      <div class="word-to-guess">
+        <p class="word">WORD: </p>
+        <p id="guess"></p>
+      </div>
+
+      <div class="guesses">
+        <div class="group guess-number">
+          <p class="guesses-text">Number of guesses remaining: </p>
+            <p id="guesses-left"></p>
+        </div>
+  
+        <div class="group letters">
+          <p>Letters Already Guessed: </p>
+          <p id="guessed-letters"></p>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
   </main>
 
   <footer>
     Photo by Elijah O'Donnell on Unsplash
   </footer>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="./assets/javascript/game.js"></script>
 </body>
 

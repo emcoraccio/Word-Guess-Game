@@ -8,17 +8,41 @@ html {
   background-size: cover;
 }
 
+/* general styling */
 body {
   font-family: 'Fjalla One', sans-serif;
 }
 
 main {
   color: #ffffff;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+div.container {
+  width: 85%;
+  margin: auto;
 }
 
 h2.title {
   text-align: center;
   font-size: 40px;
+}
+
+/* changing styling */
+button.playButton {
+  padding: 5px 4px;
+  background-color: #D10016;
+  /* rgb(197, 5, 5); */
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 40px;
+  letter-spacing: -.06em;
+  border: none;
+}
+
+.hide-init {
+  display: none;
 }
 
 p {
@@ -30,11 +54,50 @@ p.instructions {
   margin: 30px;
 }
 
-div.changing {
-  position: relative;
-  top: 150px;
+/* score styling  */
+div.scorecard {
+  width: 33%;
+  margin: auto;
+  font-size: 20px;
 }
 
+p.win {
+  float: left;
+}
+
+p.loss {
+  float: right;
+}
+
+/* guesses styling */
+div.group {
+  max-width: 250px;
+}
+
+div.guess-number {
+  float: left;
+  position: relative;
+  bottom: 350px;
+}
+
+
+div.letters {
+  float: right;
+  position: relative;
+  bottom: 350px;
+}
+
+div.changing {
+  position: relative;
+  top: 350px;
+}
+
+
+p#guess {
+  font-size: 24px;
+}
+
+/* footer styling  */
 footer {
   position: fixed;
   bottom: 0; 

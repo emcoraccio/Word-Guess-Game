@@ -58,7 +58,7 @@ function setBlanks() {
 
 setBlanks();
 
-function checkBlanks() {
+function checkWin() {
   if (userGuess.indexOf("_") == -1) {
     wins ++;
     winsText.innerHTML = wins;
@@ -68,51 +68,72 @@ function checkBlanks() {
   }
 }
 
-
+function isLetter(event) {
+  let key = event.keyCode;
+  if ((key > 64 && key < 91) || (key > 96 && key < 123) ) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
 
 // when user presses a key...
 document.onkeyup = function (event) {
-  // set user's guess to uppercase letter
-  let letterGuess = event.key.toUpperCase();
-
-  // set variable for the letter guessed's position in the word
-  let letterIndex = word.indexOf(letterGuess);
-
-  // checks if user's guess is in the word or not
-  if (letterIndex != -1) {
-    console.log("first letter found at " + letterIndex);
-    userGuess[letterIndex] = letterGuess;
-    guessText.innerHTML = userGuess;
-
-    // checks for another instance of that letter in the word
-    for (i = letterIndex; i < word.length; i++) {
-      let letterFind = word.indexOf(letterGuess, (i + 1));
-      // if there is another instance...
-      if (letterFind != -1) {
-        console.log("letter found at " + letterFind);
-        // replace _ with letter user guessed and set it on the page
-        userGuess[letterFind] = letterGuess;
-        guessText.innerHTML = userGuess;
-        i = letterFind;
+  
+  // if key is a letter...
+  if (isLetter(event)) {
+    // set user's guess to uppercase letter
+    let letterGuess = event.key.toUpperCase();
+    
+    // set variable for the letter guessed's position in the word
+    let letterIndex = word.indexOf(letterGuess);
+  
+    // checks if user's guess is in the word or not
+    if (letterIndex != -1) {
+      console.log("first letter found at " + letterIndex);
+      userGuess[letterIndex] = letterGuess;
+      guessText.innerHTML = userGuess;
+  
+      // checks for another instance of that letter in the word
+      for (i = letterIndex; i < word.length; i++) {
+        let letterFind = word.indexOf(letterGuess, (i + 1));
+        // if there is another instance...
+        if (letterFind != -1) {
+          console.log("letter found at " + letterFind);
+          // replace _ with letter user guessed and set it on the page
+          userGuess[letterFind] = letterGuess;
+          guessText.innerHTML = userGuess;
+          i = letterFind;
+        }
+        // otherwise end the for loop
+        else {
+          i = word.length;
+        }
       }
-      // otherwise end the for loop
-      else {
-        i = word.length;
+      checkWin();
+    }
+    // if user's guess is not in the word, add it to the lettersGuessed array
+    else if (lettersGuessed.indexOf(letterGuess) == -1) {
+      lettersGuessed.push(letterGuess);
+      guessesLeft--;
+      guessesText.innerHTML = guessesLeft;
+      lettersGuessedText.innerHTML = lettersGuessed.join(", ");
+      if (guessesLeft == 0) {
+        losses++;
+        lossesText.innerHTML = losses;
       }
     }
-    checkBlanks();
   }
-  // if user's guess is not in the word, add it to the lettersGuessed array
-  else if (lettersGuessed.indexOf(letterGuess) == -1) {
-    lettersGuessed.push(letterGuess);
-    guessesLeft--;
-    guessesText.innerHTML = guessesLeft;
-    lettersGuessedText.innerHTML = lettersGuessed;
-    if (guessesLeft == 0) {
-      losses++;
-      lossesText.innerHTML = losses;
-    }
-  }
-
-
 }
+
+// hide play button and instructions once game starts
+// and show all components of game
+$(document).ready(function(){
+
+  $("button").click(function() {
+    $(".show-init").hide("slow");
+    $(".hide-init").show("slow");
+  });
+
+});
