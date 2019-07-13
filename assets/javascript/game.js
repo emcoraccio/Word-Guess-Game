@@ -10,6 +10,11 @@ let word = ""
 let userGuess = [];
 let letterIndex = -1;
 
+let scorecard = {
+  wins: 0,
+  losses: 0
+}
+
 // accessing specific html ids
 let guessText = document.getElementById("guess");
 let guessesText = document.getElementById("guesses-left");
@@ -28,7 +33,7 @@ function resetValues() {
   guessesLeft = 12;
   guessesText.innerHTML = guessesLeft;
   lettersGuessed = [];
-  lettersGuessedText.innerHTML = lettersGuessed;  
+  lettersGuessedText.innerHTML = lettersGuessed;
   word = "";
   userGuess = [];
 }
@@ -39,62 +44,58 @@ function newWord() {
   word = wordChoice.toUpperCase();
 }
 
-newWord();
 
 // sets word to be guessed to underscores 
 function setBlanks() {
   for (i = 0; i < word.length; i++) {
     if (word[i] == " ") {
       userGuess.push("  ");
-      console.log(userGuess);
     }
     else {
       userGuess.push("_");
-      console.log(userGuess);
     }
   }
-  guessText.innerHTML = userGuess;
+  guessText.innerHTML = userGuess.join("");
 }
-
-setBlanks();
 
 function checkWin() {
   if (userGuess.indexOf("_") == -1) {
-    wins ++;
+    wins++;
     winsText.innerHTML = wins;
-    resetValues();
-    newWord();
-    setBlanks();
   }
+}
+
+function newGame() {
+  resetValues();
+  newWord();
+  setBlanks();
 }
 
 function isLetter(event) {
   let key = event.keyCode;
-  if ((key > 64 && key < 91) || (key > 96 && key < 123) ) {
+  if ((key > 64 && key < 91) || (key > 96 && key < 123)) {
     return true;
-  }
-  else {
-    return false;
   }
 }
 
 // when user presses a key...
 document.onkeyup = function (event) {
-  
+
+  console.log(isLetter(event));
   // if key is a letter...
   if (isLetter(event)) {
     // set user's guess to uppercase letter
     let letterGuess = event.key.toUpperCase();
-    
+
     // set variable for the letter guessed's position in the word
     let letterIndex = word.indexOf(letterGuess);
-  
+
     // checks if user's guess is in the word or not
     if (letterIndex != -1) {
       console.log("first letter found at " + letterIndex);
       userGuess[letterIndex] = letterGuess;
-      guessText.innerHTML = userGuess;
-  
+      guessText.innerHTML = userGuess.join("");
+
       // checks for another instance of that letter in the word
       for (i = letterIndex; i < word.length; i++) {
         let letterFind = word.indexOf(letterGuess, (i + 1));
@@ -103,7 +104,7 @@ document.onkeyup = function (event) {
           console.log("letter found at " + letterFind);
           // replace _ with letter user guessed and set it on the page
           userGuess[letterFind] = letterGuess;
-          guessText.innerHTML = userGuess;
+          guessText.innerHTML = userGuess.join("");
           i = letterFind;
         }
         // otherwise end the for loop
@@ -115,13 +116,15 @@ document.onkeyup = function (event) {
     }
     // if user's guess is not in the word, add it to the lettersGuessed array
     else if (lettersGuessed.indexOf(letterGuess) == -1) {
-      lettersGuessed.push(letterGuess);
-      guessesLeft--;
-      guessesText.innerHTML = guessesLeft;
-      lettersGuessedText.innerHTML = lettersGuessed.join(", ");
       if (guessesLeft == 0) {
         losses++;
         lossesText.innerHTML = losses;
+      }
+      else {
+        lettersGuessed.push(letterGuess);
+        guessesLeft--;
+        guessesText.innerHTML = guessesLeft;
+        lettersGuessedText.innerHTML = lettersGuessed.join(", ");
       }
     }
   }
@@ -129,11 +132,17 @@ document.onkeyup = function (event) {
 
 // hide play button and instructions once game starts
 // and show all components of game
-$(document).ready(function(){
+$(document).ready(function () {
 
-  $("button").click(function() {
-    $(".show-init").hide("slow");
+  //pressing the play button - hide instructions and play button
+  $("button.playButton").on("click", function () {
+    newGame();
+    $("h2").addClass("inline")
+    $(".logo").animate({ width: "80px" }, "slow");
+    $(".show-init").hide("fast");
     $(".hide-init").show("slow");
   });
+
+
 
 });

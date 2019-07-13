@@ -1,27 +1,41 @@
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One&display=swap');
 
-html {
-  background: url('../images/elijah-o-donnell-7DVmV22nieQ-unsplash.jpg') no-repeat center center fixed;
+
+
+/* general styling */
+body {
+  /* background styling */
+  background: url('../images/ironman.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-}
-
-/* general styling */
-body {
   font-family: 'Fjalla One', sans-serif;
 }
 
 main {
-  color: #ffffff;
+  color: #CAC9D9;
   text-align: center;
   font-size: 1.5em;
+  text-shadow: #D10016 3px 0 10px;
 }
 
 div.container {
   width: 85%;
+  max-width: 960px;
   margin: auto;
+  margin-top: 40px;
+}
+
+p {
+  text-align: center;
+  padding: 10px;
+}
+
+/* //title styling */
+img.logo {
+  width: 200px;
+  margin-right: 20px;
 }
 
 h2.title {
@@ -29,25 +43,25 @@ h2.title {
   font-size: 40px;
 }
 
+h2.inline {
+  display: inline; 
+}
+
+
 /* changing styling */
 button.playButton {
   padding: 5px 4px;
   background-color: #D10016;
-  /* rgb(197, 5, 5); */
-  color: #ffffff;
+  color: #CAC9D9;
   font-weight: 800;
-  font-size: 40px;
+  font-size: 80px;
   letter-spacing: -.06em;
+  margin-top: 10%;
   border: none;
 }
 
 .hide-init {
   display: none;
-}
-
-p {
-  text-align: center;
-  padding: 10px;
 }
 
 p.instructions {
@@ -58,6 +72,7 @@ p.instructions {
 div.scorecard {
   width: 33%;
   margin: auto;
+  margin-top: 20px;
   font-size: 20px;
 }
 
@@ -77,32 +92,82 @@ div.group {
 div.guess-number {
   float: left;
   position: relative;
-  bottom: 350px;
+  bottom: 100px;
 }
 
 
 div.letters {
   float: right;
   position: relative;
-  bottom: 350px;
+  bottom: 100px;
 }
 
 div.changing {
   position: relative;
-  top: 350px;
+  top: 150px;
 }
 
+div.word-to-guess {
+  clear: both;
+  font-size: 1.5em;
+  margin: auto;
+}
 
 p#guess {
-  font-size: 24px;
+  word-spacing: 10px;
+  letter-spacing: 3px;
 }
 
-/* footer styling  */
-footer {
-  position: fixed;
-  bottom: 0; 
-  right: 0;
-  margin: 10px;
-  font-size: 12px;
-  color: #aaaaaa;
+/* @-webkit-keyframes backgroundFade {
+  from {
+    background: url('../images/elijah-o-donnell-7DVmV22nieQ-unsplash.jpg') no-repeat center center fixed;
+  }
+  to {
+    background: #001C20;
+  }
+}
+
+body.backgroundChange {
+  animation: backgroundFade 2s;
+} */
+
+/* styling for screens <1000px  */
+@media screen and (max-width: 1000px) {
+  div.guess-number, div.letters {
+    max-width: none;
+    width: 50%;
+  }
+
+  div.word-to-guess {
+    clear: both;
+    width: 100%;
+  }
+
+  p#guesses-left, p#guessed-letters {
+    margin-top: 0;
+  }
+}
+
+/* styling for screens 640px */
+@media screen and (max-width: 640px){
+  .sm-span {
+    width: 100%;
+    text-align: center;
+    margin: auto;
+  }
+
+  div.letters, div.guess-number {
+    position: unset;
+    bottom: 0;
+    float: none;
+    width: 100%;
+  }
+
+  div.changing {
+    top: 50px;
+  }
+
+  p.win, p.loss {
+    float: none;
+  }
 }
