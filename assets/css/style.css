@@ -120,6 +120,7 @@ p#guess {
   letter-spacing: 3px;
 }
 
+/* media queries for a responsive page*/
 /* styling for screens <1000px  */
 @media screen and (max-width: 1000px) {
   div.guess-number, div.letters {
