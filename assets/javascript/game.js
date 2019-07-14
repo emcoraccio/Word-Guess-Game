@@ -1,5 +1,8 @@
 // sets array of possible words for the game
-let marvelWords = ["Iron Man", "Stan Lee", "Thor", "Drax", "Peter Parker", "Tony Stark"];
+let marvelWords = ["Iron Man", "Stan Lee", "Thor", "Drax", "Peter Parker", "Tony Stark", "comics", "Thanos", "Avengers", "Green Goblin", "Loki", "Spiderman", "Hulk", "Captain America", "Black Widow", "Fantastic Four", "X Men", "Ant Man",
+                    "Deadpool", "Black Panther", "Wakanda", "Daredevil", "The Punisher", "Elektra", "Asgard", "Odin", "Wolverine", "Doctor Strange", "Infinity Stones", "Tesseract", "Steve Rogers", "SHIELD", "Nick Fury", "Hydra", "Ultron",
+                    "Nebula", "Rocket Raccoon", "Captain Marvel", "Kree", "Mystique", "Hawkeye", "Hank Pym", "Bucky Barnes", "mjolnir", "War Machine", "Xandar", "Peter Quill", "Gamora", "Groot", "Endgame", "Scarlet Witch", "Vision",
+                    "Pepper Potts", "Stark Industries", "Magneto", "Venom", "Kingpin", "Mysterio", "Doc Oc", "Hela", "Taskmaster", "Juggernaut", "vibranium", "infinity gauntlet", "arc reactor", "web shooters", "Bruce Banner"];
 
 let guessText = $("p#guess");
 let guessesLeftText = $("p#guesses-left");
@@ -41,6 +44,19 @@ let game = {
   newWord: function () {
     let wordChoice = marvelWords[Math.floor(Math.random() * marvelWords.length)];
     this.computer.word = wordChoice.toUpperCase();
+    // checks if word has been used yet
+    if(game.computer.wordsUsed.length < marvelWords.length) {
+      if (game.computer.wordsUsed.includes(this.computer.word)) {
+        this.newWord();
+      }
+      else {
+        this.computer.wordsUsed.push(this.computer.word);
+        console.log("words used: " + this.computer.wordsUsed)
+      }
+    } else {
+      game.computer.wordsUsed = [];
+      this.newWord();
+    }
   },
 
   // sets word to be guessed to underscores 
@@ -86,12 +102,13 @@ let game = {
   }
 }
 
-guessesLeftText.text(game.user.guessesLeft);
-winsText.text(game.scorecard.wins);
-lossesText.text(game.scorecard.losses);
 
 // jquery
 $(document).ready(function () {
+  
+  guessesLeftText.text(game.user.guessesLeft);
+  winsText.text(game.scorecard.wins);
+  lossesText.text(game.scorecard.losses);
 
   //pressing the play button - hide instructions and play button
   $("button.playButton").on("click", function () {
