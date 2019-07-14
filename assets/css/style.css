@@ -112,12 +112,17 @@ div.word-to-guess {
   font-size: 1.5em;
   margin: auto;
   position: relative;
-  bottom: 50px;
+  bottom: 80px;
 }
 
 p#guess {
   word-spacing: 10px;
   letter-spacing: 3px;
+}
+
+h2.you-win, h2.you-lose {
+  display: none;
+  font-size: 200px;
 }
 
 /* media queries for a responsive page*/
@@ -131,7 +136,6 @@ p#guess {
   div.word-to-guess {
     clear: both;
     width: 100%;
-    bottom: 0px;
     margin-bottom: 30px;
   }
 

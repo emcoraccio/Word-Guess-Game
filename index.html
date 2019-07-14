@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Marvel Word Guess Game</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -24,12 +25,20 @@
       <p class="instructions show-init">GUESS THE MARVEL RELATED WORD IN 12 GUESSES</p>
       <p class="instructions show-init">PRESS THE PLAY BUTTON TO BEGIN</p>
 
+      <h2 class="you-win">YOU WIN!</h2>
+      <h2 class="you-lose">YOU LOSE!</h2>
+
       <div class="scorecard">
         <p class="score win hide-init sm-span">WINS: <span id="wins"></p>
         <p class="score loss hide-init sm-span">LOSSES: <span id="losses"></span></p>
       </div>
 
       <div class="changing hide-init">
+        <div class="word-to-guess sm-span">
+          <p class="word">WORD: </p>
+          <input type="hidden"><p id="guess"></p>
+        </div>
+
         <div class="guesses">
 
           <div class="group guess-number sm-span">
@@ -44,10 +53,6 @@
 
         </div>
 
-        <div class="word-to-guess sm-span">
-          <p class="word">WORD: </p>
-          <p id="guess"></p>
-        </div>
 
       </div>
 
