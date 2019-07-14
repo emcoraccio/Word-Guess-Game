@@ -14,7 +14,7 @@ body {
 }
 
 main {
-  color: #CAC9D9;
+  color: #ffffff;
   text-align: center;
   font-size: 1.5em;
   text-shadow: #D10016 3px 0 10px;
@@ -111,25 +111,14 @@ div.word-to-guess {
   clear: both;
   font-size: 1.5em;
   margin: auto;
+  position: relative;
+  bottom: 50px;
 }
 
 p#guess {
   word-spacing: 10px;
   letter-spacing: 3px;
 }
-
-/* @-webkit-keyframes backgroundFade {
-  from {
-    background: url('../images/elijah-o-donnell-7DVmV22nieQ-unsplash.jpg') no-repeat center center fixed;
-  }
-  to {
-    background: #001C20;
-  }
-}
-
-body.backgroundChange {
-  animation: backgroundFade 2s;
-} */
 
 /* styling for screens <1000px  */
 @media screen and (max-width: 1000px) {
@@ -141,6 +130,8 @@ body.backgroundChange {
   div.word-to-guess {
     clear: both;
     width: 100%;
+    bottom: 0px;
+    margin-bottom: 30px;
   }
 
   p#guesses-left, p#guessed-letters {

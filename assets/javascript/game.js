@@ -1,148 +1,153 @@
 // sets array of possible words for the game
 let marvelWords = ["Iron Man", "Stan Lee", "Thor", "Drax", "Peter Parker", "Tony Stark"];
 
-// sets variables to be used in the game
-let wins = 0;
-let losses = 0;
-let guessesLeft = 12;
-let lettersGuessed = [];
-let word = ""
-let userGuess = [];
-let letterIndex = -1;
+let guessText = $("p#guess");
+let guessesLeftText = $("p#guesses-left");
+let lettersGuessedText = $("p#guessed-letters");
+let winsText = $("span#wins");
+let lossesText = $("span#losses");
 
-let scorecard = {
-  wins: 0,
-  losses: 0
-}
+// game object
+let game = {
 
-// accessing specific html ids
-let guessText = document.getElementById("guess");
-let guessesText = document.getElementById("guesses-left");
-let lettersGuessedText = document.getElementById("guessed-letters");
-let winsText = document.getElementById("wins");
-let lossesText = document.getElementById("losses");
+  scorecard: {
+    wins: 0,
+    losses: 0
+  },
 
-// setting beginning html
-guessesText.innerHTML = guessesLeft;
-winsText.innerHTML = wins;
-lossesText.innerHTML = losses;
+  user: {
+    guessesLeft: 12,
+    lettersGuessed: [],
+    userGuess: [],
+    letterIndex: -1
+  },
 
+  computer: {
+    word: "",
+    wordsUsed: []
+  },
 
-// resets values to begin new game
-function resetValues() {
-  guessesLeft = 12;
-  guessesText.innerHTML = guessesLeft;
-  lettersGuessed = [];
-  lettersGuessedText.innerHTML = lettersGuessed;
-  word = "";
-  userGuess = [];
-}
+  // resets values to begin new game
+  resetValues: function () {
+    this.user.guessesLeft = 12;
+    guessesLeftText.text(this.user.guessesLeft);
+    this.user.lettersGuessed = [];
+    lettersGuessedText.text(this.user.lettersGuessed);
+    this.computer.word = "";
+    this.user.userGuess = [];
+  },
 
-// picks new random word for user to guess
-function newWord() {
-  let wordChoice = marvelWords[Math.floor(Math.random() * marvelWords.length)];
-  word = wordChoice.toUpperCase();
-}
+  // picks new random word for user to guess
+  newWord: function () {
+    let wordChoice = marvelWords[Math.floor(Math.random() * marvelWords.length)];
+    this.computer.word = wordChoice.toUpperCase();
+  },
 
-
-// sets word to be guessed to underscores 
-function setBlanks() {
-  for (i = 0; i < word.length; i++) {
-    if (word[i] == " ") {
-      userGuess.push("  ");
-    }
-    else {
-      userGuess.push("_");
-    }
-  }
-  guessText.innerHTML = userGuess.join("");
-}
-
-function checkWin() {
-  if (userGuess.indexOf("_") == -1) {
-    wins++;
-    winsText.innerHTML = wins;
-  }
-}
-
-function newGame() {
-  resetValues();
-  newWord();
-  setBlanks();
-}
-
-function isLetter(event) {
-  let key = event.keyCode;
-  if ((key > 64 && key < 91) || (key > 96 && key < 123)) {
-    return true;
-  }
-}
-
-// when user presses a key...
-document.onkeyup = function (event) {
-
-  console.log(isLetter(event));
-  // if key is a letter...
-  if (isLetter(event)) {
-    // set user's guess to uppercase letter
-    let letterGuess = event.key.toUpperCase();
-
-    // set variable for the letter guessed's position in the word
-    let letterIndex = word.indexOf(letterGuess);
-
-    // checks if user's guess is in the word or not
-    if (letterIndex != -1) {
-      console.log("first letter found at " + letterIndex);
-      userGuess[letterIndex] = letterGuess;
-      guessText.innerHTML = userGuess.join("");
-
-      // checks for another instance of that letter in the word
-      for (i = letterIndex; i < word.length; i++) {
-        let letterFind = word.indexOf(letterGuess, (i + 1));
-        // if there is another instance...
-        if (letterFind != -1) {
-          console.log("letter found at " + letterFind);
-          // replace _ with letter user guessed and set it on the page
-          userGuess[letterFind] = letterGuess;
-          guessText.innerHTML = userGuess.join("");
-          i = letterFind;
-        }
-        // otherwise end the for loop
-        else {
-          i = word.length;
-        }
-      }
-      checkWin();
-    }
-    // if user's guess is not in the word, add it to the lettersGuessed array
-    else if (lettersGuessed.indexOf(letterGuess) == -1) {
-      if (guessesLeft == 0) {
-        losses++;
-        lossesText.innerHTML = losses;
+  // sets word to be guessed to underscores 
+  setBlanks: function () {
+    for (i = 0; i < this.computer.word.length; i++) {
+      if (this.computer.word[i] == " ") {
+        game.user.userGuess.push("  ");
       }
       else {
-        lettersGuessed.push(letterGuess);
-        guessesLeft--;
-        guessesText.innerHTML = guessesLeft;
-        lettersGuessedText.innerHTML = lettersGuessed.join(", ");
+        game.user.userGuess.push("_");
       }
+    }
+    guessText.text(game.user.userGuess.join(""));
+  },
+
+  newGame: function () {
+    this.resetValues();
+    this.newWord();
+    this.setBlanks();
+  },
+
+  checkWin: function () {
+    if (this.user.userGuess.indexOf("_") == -1) {
+      this.scorecard.wins++;
+      winsText.text(this.scorecard.wins);
+      this.newGame();
+    }
+  },
+
+  checkLoss: function () {
+    if (this.user.guessesLeft == 0) {
+      game.scorecard.losses++;
+      lossesText.text(game.scorecard.losses);
+      this.newGame();
+    }
+  },
+
+  isLetter: function (event) {
+    let key = event.keyCode;
+    if ((key > 64 && key < 91) || (key > 96 && key < 123)) {
+      return true;
     }
   }
 }
 
-// hide play button and instructions once game starts
-// and show all components of game
+guessesLeftText.text(game.user.guessesLeft);
+winsText.text(game.scorecard.wins);
+lossesText.text(game.scorecard.losses);
+
+// jquery
 $(document).ready(function () {
 
   //pressing the play button - hide instructions and play button
   $("button.playButton").on("click", function () {
-    newGame();
+    game.newGame();
     $("h2").addClass("inline")
     $(".logo").animate({ width: "80px" }, "slow");
     $(".show-init").hide("fast");
     $(".hide-init").show("slow");
   });
 
+  // // when user presses a key...
+  $(document).keyup(function (event) {
+    // if key is a letter...
+    if (game.isLetter(event)) {
+      // set user's guess to uppercase letter
+      let letterGuess = event.key.toUpperCase();
 
+      // set variable for the letter guessed's position in the word
+      let letterIndex = game.computer.word.indexOf(letterGuess);
 
+      // checks if user's guess is in the word or not
+      if (letterIndex != -1) {
+        game.user.userGuess[letterIndex] = letterGuess;
+        guessText.text(game.user.userGuess.join(""));
+
+        // checks for another instance of that letter in the word
+        for (i = letterIndex; i < game.computer.word.length; i++) {
+          let letterFind = game.computer.word.indexOf(letterGuess, (i + 1));
+
+          // if there is another instance...
+          if (letterFind != -1) {
+            // replace _ with letter user guessed and set it on the page
+            game.user.userGuess[letterFind] = letterGuess;
+            guessText.text(game.user.userGuess.join(""));
+            i = letterFind;
+          }
+
+          // otherwise end the for loop
+          else {
+            i = game.computer.word.length;
+          }
+        }
+        game.checkWin();
+      }
+
+      // if user's guess is not in the word, check for game loss 
+      // otherwise add it to the array of letters guessed wrong
+      else {
+        if (game.user.lettersGuessed.indexOf(letterGuess) == -1) {
+          game.user.lettersGuessed.push(letterGuess);
+          game.user.guessesLeft--;
+          guessesLeftText.text(game.user.guessesLeft);
+          lettersGuessedText.text(game.user.lettersGuessed.join(", "));
+          game.checkLoss();
+        }
+      }
+    }
+  });
 });
