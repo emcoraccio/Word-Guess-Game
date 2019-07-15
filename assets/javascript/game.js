@@ -94,6 +94,13 @@ let game = {
     this.setBlanks();
   },
 
+  revealWord: function() {
+    guessText.text(this.computer.word);
+    animateCSS('p#guess', 'pulse', function() {
+      console.log(guessText.text);
+    });
+  },
+
   checkWin: function () {
     if (this.user.userGuess.indexOf("_") == -1) {
       this.scorecard.wins++;
@@ -118,8 +125,9 @@ let game = {
       animateCSS('h2.you-lose', 'rubberBand', function () {
         animateCSS('h2.you-lose', 'fadeOut', function () {
           youLoseText.hide("fast");
-          animateCSS('p#guess', 'lightSpeedOut', function () {
-            game.newGame();
+          game.revealWord();
+          animateCSS('p#guess', 'tada', function () {
+            game.newGame()
           });
         });
       });
@@ -134,16 +142,13 @@ let game = {
     }
   }
 
-
-
-
-// jquery
-$(document).ready(function () {
-
+  // jquery
+  $(document).ready(function () {
+    
     guessesLeftText.text(game.user.guessesLeft);
     winsText.text(game.scorecard.wins);
     lossesText.text(game.scorecard.losses);
-
+    
     //pressing the play button - hide instructions and play button
     $("button.playButton").on("click", function () {
       game.newGame();
