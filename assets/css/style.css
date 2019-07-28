@@ -57,6 +57,7 @@ button.playButton {
   font-size: 80px;
   letter-spacing: -.06em;
   margin-top: 10%;
+  cursor: pointer;
   border: none;
 }
 
