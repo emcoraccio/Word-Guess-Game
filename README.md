@@ -26,3 +26,5 @@ This game uses jquery to access its html elements
 
 *It is also very fun to play!*
 **Enjoy!**
+
+https://emcoraccio.github.io/Word-Guess-Game/
